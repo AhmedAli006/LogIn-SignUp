@@ -7,6 +7,9 @@ import 'package:flutter/services.dart';
 void main() async {
   runApp(const MyApp());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Color.fromARGB(0, 255, 255, 255)),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,14 +20,24 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-       
-        body: Center(
-            child:
-                Login(),
-                // SignUp()
-                ),
+        
+      resizeToAvoidBottomInset: false,
+        
+      
+        body: SignUp(),
       ),
     );
+    // return const MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   home: Scaffold(
+
+    //     body:
+
+    //             // Login(),
+    //             // SignUp()
+    //             Llist()
+
+    //   ),
+    // );
   }
 }
-
