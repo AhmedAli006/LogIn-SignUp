@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login/SignUp.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -41,6 +42,8 @@ class _LoginState extends State<Login> {
       children: [
         Positioned.fill(
           child: Container(
+                      height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
             color: Colors.white, // You can choose any background color you want
           ),
         ),
@@ -102,7 +105,10 @@ class _LoginState extends State<Login> {
                     style: GoogleFonts.montserrat(color: Colors.white)),
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const SignUp()));
+                  },
                   child: Text(
                     "Sign Up",
                     style: GoogleFonts.montserrat(
