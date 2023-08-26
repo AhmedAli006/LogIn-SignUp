@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login/LoginPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -12,27 +13,20 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-  String _name = '';
-  String _email = '';
-  String _password = '';
-  String _confirmPassword = '';
 
   bool _isSecureText = true;
   bool _isSecureTextp = true;
-  final _userController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  void _submitForm() {
+ void _login() {
     if (_formKey.currentState!.validate()) {
-      // Validate will trigger the onSaved callbacks
-      // _formKey.currentState!.save();
-
-      // Form is valid, proceed with registration
-      // if (_password != _confirmPassword) {
-      //   print("password does not Match");
-      // }
-      print('Name: $_name');
-      print('Email: $_email');
-      print('Password: $_password');
+      // Perform login logic here
+      String name = _nameController.text;
+      String email = _emailController.text;
+      String password = _passwordController.text;
+      print('Login with name $name Email: $email, Password: $password');
     }
   }
 
@@ -127,15 +121,14 @@ class _SignUpState extends State<SignUp> {
                         margin: EdgeInsets.only(top: 100),
                         width: 290,
                         child: TextFormField(
+                          controller: _nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your name';
                             }
                             return null;
                           },
-                          onSaved: (value) {
-                            _name = value!;
-                          },
+                          
                           decoration: const InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
@@ -148,6 +141,7 @@ class _SignUpState extends State<SignUp> {
                       Container(
                         width: 290,
                         child: TextFormField(
+                          controller: _emailController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -159,9 +153,7 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          onSaved: (value) {
-                            _email = value!;
-                          },
+                         
                           decoration: const InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
@@ -174,6 +166,7 @@ class _SignUpState extends State<SignUp> {
                       Container(
                         width: 290,
                         child: TextFormField(
+                          controller: _passwordController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a password';
@@ -188,10 +181,7 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          // onSaved: (value) {
-                          //   _password = value!;
-                          // },
-                          // controller: , **************************************************
+                        
                           obscureText: _isSecureText,
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -219,14 +209,12 @@ class _SignUpState extends State<SignUp> {
                             if (value == null || value.isEmpty) {
                               return 'Please confirm your password';
                             }
-                            if (value != _password) {
+                            if (value != _passwordController.text) {
                               return 'Passwords do not match';
                             }
                             return null;
                           },
-                          // onSaved: (value) {
-                          //   _confirmPassword = value!;
-                          // },
+
                           obscureText: _isSecureTextp,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
@@ -250,7 +238,7 @@ class _SignUpState extends State<SignUp> {
 
                       ElevatedButton(
                         onPressed: () {
-                          _submitForm();
+                          _login();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

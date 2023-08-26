@@ -12,28 +12,20 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   
-  String _email = '';
-  String _password = '';
+ 
   bool _isSecureText = true;
 
-  // void _submitForm() {
-  //   if (_formKey.currentState!.validate()) {
-  //     print('Email: $_email');
-  //     print('Password: $_password');
-  //   }
-  // }
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  void _submitForm() {
-  if (_formKey.currentState!.validate()) {
-    // Validate will trigger the onSaved callbacks
-    _formKey.currentState!.save();
-
-    // Form is valid, proceed with registration
+ void _SignUp() {
+    if (_formKey.currentState!.validate()) {
   
-    print('Email: $_email');
-    print('Password: $_password');
+      String email = _emailController.text;
+      String password = _passwordController.text;
+      print('Login with Email: $email, Password: $password');
+    }
   }
-}
 
 
   @override
@@ -131,6 +123,7 @@ class _LoginState extends State<Login> {
                     Container(
                       width: 290,
                       child: TextFormField(
+                        controller: _emailController,
                        validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
@@ -140,9 +133,7 @@ class _LoginState extends State<Login> {
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _email = value!;
-                },
+                
                         decoration: const InputDecoration(
                           labelText: 'Email',
                         ),
@@ -152,6 +143,8 @@ class _LoginState extends State<Login> {
                     Container(
                       width: 290,
                       child: TextFormField(
+                        controller: _passwordController,
+
                        validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
@@ -164,9 +157,7 @@ class _LoginState extends State<Login> {
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _password = value!;
-                },
+               
                         obscureText: _isSecureText,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -197,11 +188,8 @@ class _LoginState extends State<Login> {
 
                     ElevatedButton(
                       onPressed: () {
-                        _submitForm();
-                        //                    if (_formKey.currentState!.validate()) {
-                        //   print('Email: $_email');
-                        //   print('Password: $_password');
-                        // }
+                        _SignUp();
+                       
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xfffa5951),

@@ -1,4 +1,5 @@
 class ProductData {
+  
   static const prodData = [
 
     {
