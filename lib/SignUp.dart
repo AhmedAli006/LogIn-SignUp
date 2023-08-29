@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login/LoginPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login/fireHelper/FirebaseHelper.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,33 +12,47 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-
   bool _isSecureText = true;
   bool _isSecureTextp = true;
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
- void _login() {
+  void _login() async {
     if (_formKey.currentState!.validate()) {
       // Perform login logic here
-      String name = _nameController.text;
-      String email = _emailController.text;
-      String password = _passwordController.text;
-      print('Login with name $name Email: $email, Password: $password');
+      String _name = _nameController.text;
+      String _email = _emailController.text;
+      String _password = _passwordController.text;
+      var userCredentials =
+          await FirebaseHelper().SignUp(_name, _email, _password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
+            // width: MediaQuery.of(context).size.width,
             color: const Color(0xfffa5951),
           ),
+          Positioned(
+            top: 100,
+          left: 220,
+          child:Container(
+            child: CircleAvatar( backgroundColor: Colors.black,radius: 50,),
+          )
+          ),
+          Positioned(
+               top: 155,
+          left: 275,         
+            child: FloatingActionButton(onPressed: (){},
+            child: Icon(Icons.edit),
+            backgroundColor: Color(0xff553c51),
+            )),
           Positioned(
             top: -240,
             left: -150,
@@ -95,8 +108,12 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const Login()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const Login()));
+
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text(
                       "Sign In",
@@ -118,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       // Add your login fields and buttons here
                       Container(
-                        margin: EdgeInsets.only(top: 100),
+                        margin: EdgeInsets.only(top: 10),
                         width: 290,
                         child: TextFormField(
                           controller: _nameController,
@@ -128,7 +145,6 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          
                           decoration: const InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
@@ -153,7 +169,6 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                         
                           decoration: const InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
@@ -181,7 +196,6 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                        
                           obscureText: _isSecureText,
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -214,7 +228,6 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-
                           obscureText: _isSecureTextp,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
